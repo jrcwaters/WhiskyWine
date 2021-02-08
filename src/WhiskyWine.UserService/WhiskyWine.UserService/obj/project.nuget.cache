@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "2HLfY9FpdwRDaMhSrlgubTvM1W1bASK+9ot8z6Xr2BnB522vUz5a6kgeatA0/zNGKosBd9H9KOc43aID6VkDOg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\watersj1\\source\\repos\\WhiskyWine\\src\\WhiskyWine.UserService\\WhiskyWine.UserService\\WhiskyWine.UserService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\watersj1\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\watersj1\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\watersj1\\.nuget\\packages\\swashbuckle.aspnetcore\\6.0.2\\swashbuckle.aspnetcore.6.0.2.nupkg.sha512",
+    "C:\\Users\\watersj1\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.0.2\\swashbuckle.aspnetcore.swagger.6.0.2.nupkg.sha512",
+    "C:\\Users\\watersj1\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.0.2\\swashbuckle.aspnetcore.swaggergen.6.0.2.nupkg.sha512",
+    "C:\\Users\\watersj1\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.0.2\\swashbuckle.aspnetcore.swaggerui.6.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
