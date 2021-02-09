@@ -1,0 +1,12 @@
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\bin\Debug\net5.0\WhiskyWine.BottleService.Domain.deps.json
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\bin\Debug\net5.0\WhiskyWine.BottleService.Domain.dll
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\bin\Debug\net5.0\ref\WhiskyWine.BottleService.Domain.dll
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\bin\Debug\net5.0\WhiskyWine.BottleService.Domain.pdb
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\obj\Debug\net5.0\WhiskyWine.BottleService.Domain.csprojAssemblyReference.cache
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\obj\Debug\net5.0\WhiskyWine.BottleService.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\obj\Debug\net5.0\WhiskyWine.BottleService.Domain.AssemblyInfoInputs.cache
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\obj\Debug\net5.0\WhiskyWine.BottleService.Domain.AssemblyInfo.cs
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\obj\Debug\net5.0\WhiskyWine.BottleService.Domain.csproj.CoreCompileInputs.cache
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\obj\Debug\net5.0\WhiskyWine.BottleService.Domain.dll
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\obj\Debug\net5.0\ref\WhiskyWine.BottleService.Domain.dll
+C:\Users\liamm\source\repos\WhiskyWine\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\obj\Debug\net5.0\WhiskyWine.BottleService.Domain.pdb

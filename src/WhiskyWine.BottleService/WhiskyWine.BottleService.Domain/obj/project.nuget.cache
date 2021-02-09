@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "zvbkBlIcfmsZoaGeIed4PAVltvDWSg9oXAHYzYvXTfvXhST2cNg5chVX1Snya6xchkXvg/oV7iXdWUXw+5gmGw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\liamm\\source\\repos\\WhiskyWine\\src\\WhiskyWine.BottleService\\WhiskyWine.BottleService.Domain\\WhiskyWine.BottleService.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\liamm\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\liamm\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
