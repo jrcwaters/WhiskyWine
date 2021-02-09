@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiskyWine.BottleService", "WhiskyWine.BottleService\WhiskyWine.BottleService.csproj", "{9E3D7AB9-9B26-44A5-9115-123ED2CA5679}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiskyWine.BottleService.Domain", "WhiskyWine.BottleService.Domain\WhiskyWine.BottleService.Domain.csproj", "{64A8E070-DD13-48A2-8DFC-A84395EED234}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiskyWine.BottleService.Data", "WhiskyWine.BottleService.Data\WhiskyWine.BottleService.Data.csproj", "{6A5E67BC-3EC8-4DC3-BBEC-8788074789AF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiskyWine.BottleService.API", "WhiskyWine.BottleService.API\WhiskyWine.BottleService.API.csproj", "{FA23C0AD-9D48-42CE-AC40-6354CC563921}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiskyWine.BottleService.Data.UnitTests", "..\..\tests\WhiskyWine.BottleService\WhiskyWine.BottleService.Data.UnitTests\WhiskyWine.BottleService.Data.UnitTests.csproj", "{32275CDF-C43D-444A-B487-5C1D0F896044}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiskyWine.BottleService.API.UnitTests", "WhiskyWine.BottleService.API.UnitTests\WhiskyWine.BottleService.API.UnitTests.csproj", "{007B60E4-7AD3-4A1A-892C-B9127CB900CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiskyWine.BottleService.Domain.UnitTests", "WhiskyWine.BottleService.Domain.UnitTests\WhiskyWine.BottleService.Domain.UnitTests.csproj", "{75CB6E80-77FB-48B2-9ECD-B7194C97DC49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +21,35 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9E3D7AB9-9B26-44A5-9115-123ED2CA5679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E3D7AB9-9B26-44A5-9115-123ED2CA5679}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E3D7AB9-9B26-44A5-9115-123ED2CA5679}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E3D7AB9-9B26-44A5-9115-123ED2CA5679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A8E070-DD13-48A2-8DFC-A84395EED234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A8E070-DD13-48A2-8DFC-A84395EED234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A8E070-DD13-48A2-8DFC-A84395EED234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A8E070-DD13-48A2-8DFC-A84395EED234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A5E67BC-3EC8-4DC3-BBEC-8788074789AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A5E67BC-3EC8-4DC3-BBEC-8788074789AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A5E67BC-3EC8-4DC3-BBEC-8788074789AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A5E67BC-3EC8-4DC3-BBEC-8788074789AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA23C0AD-9D48-42CE-AC40-6354CC563921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA23C0AD-9D48-42CE-AC40-6354CC563921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA23C0AD-9D48-42CE-AC40-6354CC563921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA23C0AD-9D48-42CE-AC40-6354CC563921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32275CDF-C43D-444A-B487-5C1D0F896044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32275CDF-C43D-444A-B487-5C1D0F896044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32275CDF-C43D-444A-B487-5C1D0F896044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32275CDF-C43D-444A-B487-5C1D0F896044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{007B60E4-7AD3-4A1A-892C-B9127CB900CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{007B60E4-7AD3-4A1A-892C-B9127CB900CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{007B60E4-7AD3-4A1A-892C-B9127CB900CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{007B60E4-7AD3-4A1A-892C-B9127CB900CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75CB6E80-77FB-48B2-9ECD-B7194C97DC49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75CB6E80-77FB-48B2-9ECD-B7194C97DC49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75CB6E80-77FB-48B2-9ECD-B7194C97DC49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75CB6E80-77FB-48B2-9ECD-B7194C97DC49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5675BF15-950F-436E-90B1-51F8B098264C}
+		SolutionGuid = {9AC96A55-A85E-4219-ABCB-8ED8C16EB11D}
 	EndGlobalSection
 EndGlobal

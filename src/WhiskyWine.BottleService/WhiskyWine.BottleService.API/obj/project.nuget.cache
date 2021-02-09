@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "BDP86hhp4fUcN2MtlALLk0mlG0Whut5PHJZeMP6NeD3lZevCTG5DaTevRr1uJKYncLs+U2HMQ58/xlBUPrmS8g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\liamm\\source\\repos\\WhiskyWine\\src\\WhiskyWine.BottleService\\WhiskyWine.BottleService.API\\WhiskyWine.BottleService.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\liamm\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\liamm\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\liamm\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\liamm\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\liamm\\.nuget\\packages\\swashbuckle.aspnetcore\\6.0.2\\swashbuckle.aspnetcore.6.0.2.nupkg.sha512",
+    "C:\\Users\\liamm\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.0.2\\swashbuckle.aspnetcore.swagger.6.0.2.nupkg.sha512",
+    "C:\\Users\\liamm\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.0.2\\swashbuckle.aspnetcore.swaggergen.6.0.2.nupkg.sha512",
+    "C:\\Users\\liamm\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.0.2\\swashbuckle.aspnetcore.swaggerui.6.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
