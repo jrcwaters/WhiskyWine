@@ -35,7 +35,7 @@ namespace WhiskyWine.BottleService.Domain.Services
         public async Task<Bottle> UpdateBottle(int bottleId, Bottle bottle)
         {
             //Add method in cache to delete from cache, will be celled here and in delete method
-            bottle.BottleId = bottleId;
+            bottle.Id = bottleId;
             return await _repository.Update(bottleId, bottle);
         }
 

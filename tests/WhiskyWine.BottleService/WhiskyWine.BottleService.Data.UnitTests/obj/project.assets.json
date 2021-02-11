@@ -1522,7 +1522,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Abstractions": "5.0.0"
+          "Microsoft.Extensions.Caching.Abstractions": "5.0.0",
+          "MongoDB.Driver": "2.11.6"
         },
         "compile": {
           "bin/placeholder/WhiskyWine.BottleService.Domain.dll": {}

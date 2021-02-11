@@ -50,6 +50,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.0.2, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [
@@ -116,6 +120,10 @@
             "Microsoft.Extensions.Caching.Abstractions": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.11.6, )"
             }
           },
           "imports": [
