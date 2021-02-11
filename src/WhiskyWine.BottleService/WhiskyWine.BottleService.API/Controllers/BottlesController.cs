@@ -19,9 +19,10 @@ namespace WhiskyWine.BottleService.API.Controllers
         }
 
         [HttpGet("{bottleId}")]
+        
         public async Task<ActionResult> GetBottleById(int bottleId)
         {
-            return null;
+            
         }
     }
 }
