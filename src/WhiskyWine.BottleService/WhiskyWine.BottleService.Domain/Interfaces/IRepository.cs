@@ -5,10 +5,10 @@ namespace WhiskyWine.BottleService.Domain.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<T> Insert(T entity);
-        Task<T> GetById(int id);
-        Task<IEnumerable<T>> GetAll();
-        Task<T> Update(int id, T entity);
-        Task<bool> Delete(int id);
+        Task<T> InsertAsync(T entity);
+        Task<T> GetByIdAsync(string id);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task UpdateAsync(string id, T entity);
+        Task<bool> DeleteAsync(string id);
     }
 }

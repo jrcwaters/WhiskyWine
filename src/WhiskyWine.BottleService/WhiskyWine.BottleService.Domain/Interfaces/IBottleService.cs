@@ -9,14 +9,14 @@ namespace WhiskyWine.BottleService.Domain.Interfaces
 {
     public interface IBottleService
     {
-        Task<Bottle> GetBottle(int bottleId);
+        Task<Bottle> GetBottleAsync(string bottleId);
 
-        Task<IEnumerable<Bottle>> GetAllBottles();
+        Task<IEnumerable<Bottle>> GetAllBottlesAsync();
 
-        Task<Bottle> PostBottle(Bottle bottle);
+        Task<Bottle> PostBottleAsync(Bottle bottle);
 
-        Task<Bottle> UpdateBottle(int bottleId, Bottle bottle);
+        Task UpdateBottleAsync(string bottleId, Bottle bottle);
 
-        Task<bool> DeleteBottle();
+        Task<bool> DeleteBottleAsync();
     }
 }

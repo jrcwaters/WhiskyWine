@@ -9,9 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WhiskyWine.BottleService.Domain.Models;
-using System.Configuration;
 using WhiskyWine.BottleService.Domain.Interfaces;
 using Microsoft.Extensions.Options;
+using WhiskyWine.BottleService.Data.Repositories;
+using WhiskyWine.BottleService.Data.Caches;
 
 namespace WhiskyWine.BottleService.API
 {
@@ -42,6 +43,10 @@ namespace WhiskyWine.BottleService.API
                     Description = "WhiksyWine Bottle Service REST API v1"
                 });
             });
+
+            services.AddTransient<IBottleService, Domain.Services.BottleService>();
+            services.AddSingleton<IRepository<Bottle>, BottleMongoRepository>();
+            services.AddTransient<IReadThroughCache<Bottle>, BottleMemoryCache>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,17 +60,18 @@ namespace WhiskyWine.BottleService.API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("swagger/v1/swagger.json", "WhiskyWine Bottle Service API v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WhiskyWine Bottle Service API v1");
             });
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            //app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WhiskyWine.BottleService.Domain.Interfaces;
+using WhiskyWine.BottleService.Domain.Models;
 
 namespace WhiskyWine.BottleService.API.Controllers
 {
@@ -19,10 +21,73 @@ namespace WhiskyWine.BottleService.API.Controllers
         }
 
         [HttpGet("{bottleId}")]
-        
-        public async Task<ActionResult> GetBottleById(int bottleId)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetBottleAsync(string bottleId)
         {
-            
+            try
+            {
+                var result = await this._bottleService.GetBottleAsync(bottleId);
+                return result == null ? NotFound(bottleId) : Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAllBottlesAsync()
+        {
+            try 
+            {
+                var result = await this._bottleService.GetAllBottlesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> PostBottleAsync(Bottle bottle)
+        {
+
+            try
+            {
+                var result = await this._bottleService.PostBottleAsync(bottle);
+                if (result != null)
+                {
+                    return Created($"api/bottles/{bottle.BottleId}", result);
+                }
+                return BadRequest("Cannot insert duplicate record.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPut("{bottleId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateBottleAsync(string bottleId, Bottle bottle)
+        {
+            bottle.BottleId = bottleId;
+            try
+            {
+                if (await this._bottleService.GetBottleAsync(bottleId) == null) return NotFound(bottleId);
+                
+                await this._bottleService.UpdateBottleAsync(bottleId, bottle);
+                return Ok(bottle);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

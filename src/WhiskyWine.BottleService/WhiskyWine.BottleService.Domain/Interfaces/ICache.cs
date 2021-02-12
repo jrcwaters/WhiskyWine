@@ -8,6 +8,6 @@ namespace WhiskyWine.BottleService.Domain.Interfaces
 {
     public interface IReadThroughCache<T>
     {
-        Task<T> GetOrCreateCacheEntry(int id, Func<Task<T>> createCacheEntry);
+        Task<T> GetOrCreateCacheEntry(string id, Func<Task<T>> createCacheEntry);
     }
 }
