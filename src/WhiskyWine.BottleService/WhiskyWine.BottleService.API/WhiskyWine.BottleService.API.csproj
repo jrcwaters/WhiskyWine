@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WhiskyWine.BottleService.Data\WhiskyWine.BottleService.Data.csproj" />
     <ProjectReference Include="..\WhiskyWine.BottleService.Domain\WhiskyWine.BottleService.Domain.csproj" />
   </ItemGroup>
 

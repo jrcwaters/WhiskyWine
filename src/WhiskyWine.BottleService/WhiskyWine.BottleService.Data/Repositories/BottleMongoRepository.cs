@@ -19,35 +19,30 @@ namespace WhiskyWine.BottleService.Data.Repositories
             this._bottles = database.GetCollection<Bottle>(settings.BottlesCollectionName);
         }
 
-        public async Task<Bottle> Insert(Bottle entity)
+        public async Task<Bottle> InsertAsync(Bottle entity)
         {
             await _bottles.InsertOneAsync(entity);
             return entity;
         }
 
-        public async Task<Bottle> GetById(int id)
+        public async Task<Bottle> GetByIdAsync(string id)
         {
-            return (await _bottles.FindAsync(bottle => bottle.Id == id)).FirstOrDefault();
+            return (await _bottles.FindAsync(bottle => bottle.BottleId == id)).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Bottle>> GetAll()
+        public async Task<IEnumerable<Bottle>> GetAllAsync()
         {
             return (await _bottles.FindAsync(c => true)).ToList();
         }
 
-        public async Task<Bottle> Update(int id, Bottle entity)
+        public async Task UpdateAsync(string id, Bottle entity)
         {
-            var result = await _bottles.ReplaceOneAsync(bottle => bottle.Id == id, entity);
-
-            if (!result.IsAcknowledged) return null;
-
-            entity.Id = id;
-            return entity;
+            await _bottles.ReplaceOneAsync(bottle => bottle.BottleId == id, entity);
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(string id)
         {
-            return (await _bottles.DeleteOneAsync(c => c.Id == id)).IsAcknowledged;
+            return (await _bottles.DeleteOneAsync(c => c.BottleId == id)).IsAcknowledged;
         }
     }
 }

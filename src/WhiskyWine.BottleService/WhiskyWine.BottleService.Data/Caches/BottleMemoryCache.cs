@@ -17,7 +17,7 @@ namespace WhiskyWine.BottleService.Data.Caches
                 SizeLimit = 1024
             });
 
-        public async Task<Bottle> GetOrCreateCacheEntry(int id, Func<Task<Bottle>> retrieveNewEntry)
+        public async Task<Bottle> GetOrCreateCacheEntry(string id, Func<Task<Bottle>> retrieveNewEntry)
         {
             Bottle cacheEntry;
             var isInCache = _memoryCache.TryGetValue(id, out cacheEntry);
