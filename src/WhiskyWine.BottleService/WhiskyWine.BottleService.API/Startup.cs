@@ -1,18 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WhiskyWine.BottleService.Domain.Models;
 using WhiskyWine.BottleService.Domain.Interfaces;
 using Microsoft.Extensions.Options;
 using WhiskyWine.BottleService.Data.Repositories;
 using WhiskyWine.BottleService.Data.Caches;
+using WhiskyWine.BottleService.Data.Models;
+using WhiskyWine.BottleService.Data.Mappers;
 
 namespace WhiskyWine.BottleService.API
 {
@@ -47,6 +44,8 @@ namespace WhiskyWine.BottleService.API
             services.AddTransient<IBottleService, Domain.Services.BottleService>();
             services.AddSingleton<IRepository<Bottle>, BottleMongoRepository>();
             services.AddTransient<IReadThroughCache<Bottle>, BottleMemoryCache>();
+            services.AddTransient<IMapper<Bottle, BottleMongoModel>, DomainToMongoModelMapper>();
+            services.AddTransient<IMapper<BottleMongoModel, Bottle>, MongoToDomainModelMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
