@@ -23,7 +23,7 @@ namespace WhiskyWine.BottleService.API.Controllers
         [HttpGet("{bottleId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetBottleAsync(string bottleId)
+        public async Task<IActionResult> GetBottleAsync(string bottleId)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace WhiskyWine.BottleService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllBottlesAsync()
+        public async Task<IActionResult> GetAllBottlesAsync()
         {
             try 
             {
@@ -53,7 +53,7 @@ namespace WhiskyWine.BottleService.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> PostBottleAsync(Bottle bottle)
+        public async Task<IActionResult> PostBottleAsync(Bottle bottle)
         {
 
             try
@@ -74,7 +74,7 @@ namespace WhiskyWine.BottleService.API.Controllers
         [HttpPut("{bottleId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> UpdateBottleAsync(string bottleId, Bottle bottle)
+        public async Task<IActionResult> UpdateBottleAsync(string bottleId, Bottle bottle)
         {
             bottle.BottleId = bottleId;
             try
