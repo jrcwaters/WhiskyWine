@@ -66,11 +66,12 @@ namespace WhiskyWine.BottleService.Data.Repositories
             await _bottles.ReplaceOneAsync(bottle => bottle.BottleId == objectId, mongoModel);
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
             var idValid = ObjectId.TryParse(id, out var objectId);
-            if (!idValid) return false;
-            return (await _bottles.DeleteOneAsync(c => c.BottleId == objectId)).IsAcknowledged;
+            if (!idValid) return;
+
+            await _bottles.DeleteOneAsync(c => c.BottleId == objectId);
         }
     }
 }

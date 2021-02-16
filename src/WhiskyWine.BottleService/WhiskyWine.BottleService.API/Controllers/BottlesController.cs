@@ -89,5 +89,23 @@ namespace WhiskyWine.BottleService.API.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpDelete("{bottleId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteBottleAsync(string bottleId)
+        {
+            try
+            {
+                if (await this._bottleService.GetBottleAsync(bottleId) == null) return NotFound(bottleId);
+
+                await this._bottleService.DeleteBottleAsync(bottleId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }

@@ -9,6 +9,6 @@ namespace WhiskyWine.BottleService.Domain.Interfaces
         Task<T> GetByIdAsync(string id);
         Task<IEnumerable<T>> GetAllAsync();
         Task UpdateAsync(string id, T entity);
-        Task<bool> DeleteAsync(string id);
+        Task DeleteAsync(string id);
     }
 }
