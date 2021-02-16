@@ -17,6 +17,6 @@ namespace WhiskyWine.BottleService.Domain.Interfaces
 
         Task UpdateBottleAsync(string bottleId, Bottle bottle);
 
-        Task<bool> DeleteBottleAsync();
+        Task DeleteBottleAsync(string bottleId);
     }
 }
