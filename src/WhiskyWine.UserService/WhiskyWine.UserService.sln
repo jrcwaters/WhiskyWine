@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiskyWine.UserService.API", "WhiskyWine.UserService.API\WhiskyWine.UserService.API.csproj", "{6ED1932A-1CB2-4FC3-9E71-CD4986FA6323}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6ED1932A-1CB2-4FC3-9E71-CD4986FA6323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED1932A-1CB2-4FC3-9E71-CD4986FA6323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED1932A-1CB2-4FC3-9E71-CD4986FA6323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED1932A-1CB2-4FC3-9E71-CD4986FA6323}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
