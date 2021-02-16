@@ -37,9 +37,9 @@ namespace WhiskyWine.BottleService.Domain.Services
             await _repository.UpdateAsync(bottleId, bottle);
         }
 
-        public async Task DeleteBottleAsync(string bottleId)
+        public async Task<bool> DeleteBottleAsync(string bottleId)
         {
-            await _repository.DeleteAsync(bottleId);
+            return await _repository.DeleteAsync(bottleId);
         }
     }
 }
