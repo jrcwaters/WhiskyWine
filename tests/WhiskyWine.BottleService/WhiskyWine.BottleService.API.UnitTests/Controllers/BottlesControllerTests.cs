@@ -199,8 +199,8 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
         {
             //Arrange
             _mockBottleService.Setup(
-                c => c.GetBottleAsync(It.IsAny<string>()))
-                .ReturnsAsync((Bottle)null);
+                c => c.DeleteBottleAsync(It.IsAny<string>()))
+                .ReturnsAsync(false);
 
             var bottlesController = new BottlesController(_mockBottleService.Object);
 
@@ -219,8 +219,8 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
         {
             //Arrange
             _mockBottleService.Setup(
-                c => c.GetBottleAsync(It.IsAny<string>()))
-                .ReturnsAsync(new Bottle());
+                c => c.DeleteBottleAsync(It.IsAny<string>()))
+                .ReturnsAsync(true);
 
             var bottlesController = new BottlesController(_mockBottleService.Object);
 

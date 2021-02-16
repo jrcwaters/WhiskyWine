@@ -96,10 +96,9 @@ namespace WhiskyWine.BottleService.API.Controllers
         public async Task<IActionResult> DeleteBottleAsync(string bottleId)
         {
             try
-            {
-                if (await this._bottleService.GetBottleAsync(bottleId) == null) return NotFound(bottleId);
-
-                await this._bottleService.DeleteBottleAsync(bottleId);
+            { 
+                var result = await this._bottleService.DeleteBottleAsync(bottleId);
+                if (result == false) return NotFound(bottleId);
                 return NoContent();
             }
             catch (Exception ex)
