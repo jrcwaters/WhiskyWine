@@ -7,7 +7,6 @@ using WhiskyWine.BottleService.Domain.Models;
 using WhiskyWine.BottleService.Domain.Interfaces;
 using Microsoft.Extensions.Options;
 using WhiskyWine.BottleService.Data.Repositories;
-using WhiskyWine.BottleService.Data.Caches;
 using WhiskyWine.BottleService.Data.Models;
 using WhiskyWine.BottleService.Data.Mappers;
 
@@ -43,7 +42,6 @@ namespace WhiskyWine.BottleService.API
 
             services.AddTransient<IBottleService, Domain.Services.BottleService>();
             services.AddSingleton<IRepository<Bottle>, BottleMongoRepository>();
-            services.AddTransient<IReadThroughCache<Bottle>, BottleMemoryCache>();
             services.AddTransient<IMapper<Bottle, BottleMongoModel>, DomainToMongoModelMapper>();
             services.AddTransient<IMapper<BottleMongoModel, Bottle>, MongoToDomainModelMapper>();
         }

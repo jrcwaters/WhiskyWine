@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Data\WhiskyWine.BottleService.Data.csproj" />
+    <ProjectReference Include="..\..\..\src\WhiskyWine.BottleService\WhiskyWine.BottleService.Domain\WhiskyWine.BottleService.Domain.csproj" />
   </ItemGroup>
 
 </Project>
