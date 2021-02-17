@@ -15,7 +15,7 @@ namespace WhiskyWine.BottleService.Data.Repositories
         private readonly IMapper<Bottle, BottleMongoModel> _toMongoMapper;
         private readonly IMapper<BottleMongoModel, Bottle> _toDomainMapper;
 
-        public BottleMongoRepository(IBottleServiceDatabaseSettings settings,
+        public BottleMongoRepository(IDatabaseSettings settings,
             IMapper<Bottle, BottleMongoModel> toMongoMapper,
             IMapper<BottleMongoModel, Bottle> toDomainMapper)
         {

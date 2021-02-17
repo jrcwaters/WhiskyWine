@@ -7,8 +7,9 @@ using WhiskyWine.BottleService.Domain.Models;
 using WhiskyWine.BottleService.Domain.Interfaces;
 using Microsoft.Extensions.Options;
 using WhiskyWine.BottleService.Data.Repositories;
-using WhiskyWine.BottleService.Data.Models;
+using WhiskyWine.BottleService.Data;
 using WhiskyWine.BottleService.Data.Mappers;
+using WhiskyWine.BottleService.Data.Models;
 
 namespace WhiskyWine.BottleService.API
 {
@@ -25,7 +26,7 @@ namespace WhiskyWine.BottleService.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<BottleServiceDatabaseSettings>(this._configuration.GetSection(nameof(BottleServiceDatabaseSettings)));
-            services.AddSingleton<IBottleServiceDatabaseSettings>(
+            services.AddSingleton<IDatabaseSettings>(
                     c => c.GetRequiredService<IOptions<BottleServiceDatabaseSettings>>().Value);
 
             services.AddControllers();

@@ -1,7 +1,4 @@
-﻿using WhiskyWine.BottleService.Domain.Enums;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
+﻿
 namespace WhiskyWine.BottleService.Domain.Models
 {
     public class Bottle
