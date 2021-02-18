@@ -18,7 +18,7 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
         }
 
         [Test]
-        public async Task GetBottleAsync_ReturnsResultReturnedByRepository_WhenNonNull()
+        public async Task GetBottleAsync_ReturnsResultReturnedByRepository_WhenNotNull()
         {
             //Arrange
             var bottleToReturn = new Bottle { BottleId = "bottleId" };
@@ -92,6 +92,77 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             //Assert
             Assert.IsInstanceOf(typeof(List<Bottle>), result);
             Assert.IsEmpty(result);
+        }
+
+        [Test]
+        public async Task PostBottleAsync_ReturnsBottleReturnedByRepo_WhenNotNull()
+        {
+            //Arrange
+            var bottleToReturn = new Bottle { BottleId = "bottleId" };
+            _mockRepository.Setup(
+                c => c.InsertAsync(It.IsAny<Bottle>()))
+                .ReturnsAsync(bottleToReturn);
+
+            var bottleService = new Domain.Services.BottleService(_mockRepository.Object);
+
+            //Act
+            var result = await bottleService.PostBottleAsync(bottleToReturn);
+
+            //Assert
+            Assert.AreEqual(bottleToReturn.BottleId, result.BottleId);
+
+        }
+
+        [Test]
+        public async Task PostBottleAsync_ReturnsNull_WhenRepoReturnsNull()
+        {
+            //Arrange
+            _mockRepository.Setup(
+                c => c.InsertAsync(It.IsAny<Bottle>()))
+                .ReturnsAsync((Bottle)null);
+
+            var bottleService = new Domain.Services.BottleService(_mockRepository.Object);
+
+            //Act
+            var result = await bottleService.PostBottleAsync(new Bottle());
+
+            //Assert
+            Assert.AreEqual(null, result);
+
+        }
+
+        [Test]
+        public async Task DeleteBottleAsync_ReturnsTrue_WhenRepoReturnsTrue()
+        {
+            //Arrange
+            _mockRepository.Setup(
+                c => c.DeleteAsync(It.IsAny<string>()))
+                .ReturnsAsync(true);
+
+            var bottleService = new Domain.Services.BottleService(_mockRepository.Object);
+
+            //Act
+            var result = await bottleService.DeleteBottleAsync("bottleId");
+
+            //Assert
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public async Task DeleteBottleAsync_ReturnsFalse_WhenRepoReturnsFalse()
+        {
+            //Arrange
+            _mockRepository.Setup(
+                c => c.DeleteAsync(It.IsAny<string>()))
+                .ReturnsAsync(false);
+
+            var bottleService = new Domain.Services.BottleService(_mockRepository.Object);
+
+            //Act
+            var result = await bottleService.DeleteBottleAsync("bottleId");
+
+            //Assert
+            Assert.AreEqual(false, result);
         }
     }
 }
