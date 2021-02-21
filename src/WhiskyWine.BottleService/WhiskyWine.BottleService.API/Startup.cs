@@ -65,7 +65,7 @@ namespace WhiskyWine.BottleService.API
 
             app.UseRouting();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
