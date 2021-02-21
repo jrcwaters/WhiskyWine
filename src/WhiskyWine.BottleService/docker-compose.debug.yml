@@ -1,0 +1,23 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+version: '3.4'
+
+services:
+  api:
+    image: bottleservice
+    build:
+      context: .
+      dockerfile: WhiskyWine.BottleService.API/Dockerfile # the Dockerfile is stored in the API project
+    ports:
+      - 5000:80 # port mapping
+      - 5001:443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development # debug runs in development mode
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=dockerpass # password used when making the cert, without curly braces
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+      - ~/.aspnet/https:/https:ro
+
+volumes:
+  pgdata:
