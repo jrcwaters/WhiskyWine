@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WhiskyWine.BottleService.Domain.Interfaces;
 using WhiskyWine.BottleService.Domain.Models;
@@ -36,8 +37,8 @@ namespace WhiskyWine.BottleService.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAllBottlesAsync()
-        {
-            try 
+        { 
+            try
             {
                 var result = await this._bottleService.GetAllBottlesAsync();
                 return Ok(result);

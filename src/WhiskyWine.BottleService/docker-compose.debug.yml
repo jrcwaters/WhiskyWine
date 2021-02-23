@@ -15,9 +15,14 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=dockerpass # password used when making the cert, without curly braces
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - "BottleServiceDatabaseSettings:ConnectionString=mongodb://mongodb:27017"
     volumes:
-      - ~/.vsdbg:/remote_debugger:rw
       - ~/.aspnet/https:/https:ro
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27071:27071"
 
-volumes:
-  pgdata:
