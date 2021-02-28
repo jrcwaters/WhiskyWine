@@ -11,18 +11,15 @@ namespace WhiskyWine.BottleService.Data.Repositories
 {
     public class BottleMongoRepository : IRepository<Bottle>
     {
-        private readonly IMongoCollection<BottleMongoModel> _bottles;
+        private readonly IMongoDbContext<BottleMongoModel> _dbContext;
         private readonly IMapper<Bottle, BottleMongoModel> _toMongoMapper;
         private readonly IMapper<BottleMongoModel, Bottle> _toDomainMapper;
 
-        public BottleMongoRepository(IDatabaseSettings settings,
+        public BottleMongoRepository(IMongoDbContext<BottleMongoModel> dbContext,
             IMapper<Bottle, BottleMongoModel> toMongoMapper,
             IMapper<BottleMongoModel, Bottle> toDomainMapper)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-            
-            this._bottles = database.GetCollection<BottleMongoModel>(settings.BottlesCollectionName);
+            this._dbContext = dbContext;
             this._toMongoMapper = toMongoMapper;
             this._toDomainMapper = toDomainMapper;
         }
@@ -31,7 +28,7 @@ namespace WhiskyWine.BottleService.Data.Repositories
         {
             var mongoModel = _toMongoMapper.Map(entity);
            
-            await _bottles.InsertOneAsync(mongoModel);
+            await _dbContext.Collection.InsertOneAsync(mongoModel);
             return _toDomainMapper.Map(mongoModel);
         }
 
@@ -40,13 +37,13 @@ namespace WhiskyWine.BottleService.Data.Repositories
             var idValid = ObjectId.TryParse(id, out var objectId);
             if (!idValid) return null;
             
-            var mongoModel = (await _bottles.FindAsync(bottle => bottle.BottleId == objectId)).FirstOrDefault();
+            var mongoModel = (await _dbContext.Collection.FindAsync(bottle => bottle.BottleId == objectId)).FirstOrDefault();
             return _toDomainMapper.Map(mongoModel);
         }
 
         public async Task<IEnumerable<Bottle>> GetAllAsync()
         {
-            var mongoModelList = (await _bottles.FindAsync(c => true)).ToList();
+            var mongoModelList = (await _dbContext.Collection.FindAsync(c => true)).ToList();
 
             var domainModelList = new List<Bottle>();
             foreach (var mongoModel in mongoModelList)
@@ -63,7 +60,7 @@ namespace WhiskyWine.BottleService.Data.Repositories
 
             var mongoModel = _toMongoMapper.Map(entity);
 
-            await _bottles.ReplaceOneAsync(bottle => bottle.BottleId == objectId, mongoModel);
+            await _dbContext.Collection.ReplaceOneAsync(bottle => bottle.BottleId == objectId, mongoModel);
         }
 
         public async Task<bool> DeleteAsync(string id)
@@ -71,7 +68,7 @@ namespace WhiskyWine.BottleService.Data.Repositories
             var idValid = ObjectId.TryParse(id, out var objectId);
             if (!idValid) return false;
 
-            var deleteResult = await _bottles.DeleteOneAsync(c => c.BottleId == objectId);
+            var deleteResult = await _dbContext.Collection.DeleteOneAsync(c => c.BottleId == objectId);
             if (deleteResult.IsAcknowledged == false) return false;
             if (deleteResult.DeletedCount == 0) return false;
             return true;
