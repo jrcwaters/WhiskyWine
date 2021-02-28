@@ -28,6 +28,8 @@ namespace WhiskyWine.BottleService.API
             services.Configure<BottleServiceDatabaseSettings>(this._configuration.GetSection(nameof(BottleServiceDatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(
                     c => c.GetRequiredService<IOptions<BottleServiceDatabaseSettings>>().Value);
+            services.AddSingleton<IMongoDbContext<BottleMongoModel>, BottleMongoDbContext>();
+            services.AddSingleton<IRepository<Bottle>, BottleMongoRepository>();
 
             services.AddControllers();
             services.AddMemoryCache();
@@ -42,7 +44,6 @@ namespace WhiskyWine.BottleService.API
             });
 
             services.AddTransient<IBottleService, Domain.Services.BottleService>();
-            services.AddSingleton<IRepository<Bottle>, BottleMongoRepository>();
             services.AddTransient<IMapper<Bottle, BottleMongoModel>, DomainToMongoModelMapper>();
             services.AddTransient<IMapper<BottleMongoModel, Bottle>, MongoToDomainModelMapper>();
         }
