@@ -27,7 +27,7 @@ namespace WhiskyWine.BottleService.API.Controllers
             try
             {
                 var result = await this._bottleService.GetBottleAsync(bottleId);
-                return result == null ? NotFound(bottleId) : Ok(result);
+                return result == null ? (IActionResult) NotFound(bottleId) : Ok(result);
             }
             catch (Exception ex)
             {
