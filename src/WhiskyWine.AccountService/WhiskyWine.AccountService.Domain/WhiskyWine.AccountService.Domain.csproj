@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models" />
-    <Folder Include="Services" />
+    <ProjectReference Include="..\WhiskyWine.AccountService.Data\WhiskyWine.AccountService.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
   </ItemGroup>
 
 </Project>
