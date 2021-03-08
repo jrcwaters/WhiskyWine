@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repository" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WhiskyWine.AccountService.Domain\WhiskyWine.AccountService.Domain.csproj" />
   </ItemGroup>
 
 </Project>
