@@ -25,7 +25,11 @@ namespace WhiskyWine.BottleService.API
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            
+            //Read database settings from appsettings.json
             services.Configure<BottleServiceDatabaseSettings>(this._configuration.GetSection(nameof(BottleServiceDatabaseSettings)));
+            
+            //Register repository and dependencies
             services.AddSingleton<IDatabaseSettings>(
                     c => c.GetRequiredService<IOptions<BottleServiceDatabaseSettings>>().Value);
             services.AddSingleton<IMongoDbContext<BottleMongoModel>, BottleMongoDbContext>();
@@ -33,6 +37,7 @@ namespace WhiskyWine.BottleService.API
 
             services.AddControllers();
             services.AddMemoryCache();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -43,7 +48,11 @@ namespace WhiskyWine.BottleService.API
                 });
             });
 
+
+            //Register domain servies
             services.AddTransient<IBottleService, Domain.Services.BottleService>();
+            
+            //Register adapters
             services.AddTransient<IMapper<Bottle, BottleMongoModel>, DomainToMongoModelMapper>();
             services.AddTransient<IMapper<BottleMongoModel, Bottle>, MongoToDomainModelMapper>();
         }
@@ -53,7 +62,12 @@ namespace WhiskyWine.BottleService.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/error-local-development");
+            }
+            else 
+            {
+                //Register global error handling page for use in production
+                app.UseExceptionHandler("/error");
             }
 
             app.UseSwagger();
