@@ -9,16 +9,28 @@ using WhiskyWine.BottleService.Domain.Models;
 
 namespace WhiskyWine.BottleService.API.UnitTests.Controllers
 {
+    /// <summary>
+    /// The unit test class for the BottlesController.
+    /// </summary>
     public class BottlesControllerTests
     {
+        /// <summary>
+        /// Mocked out BottleService.
+        /// </summary>
         private Mock<IBottleService> _mockBottleService;
 
+        /// <summary>
+        /// Set up the dependencies. Runs before every unit test in this class.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
             _mockBottleService = new Mock<IBottleService>();
         }
 
+        /// <summary>
+        /// Test that the GetBottlesAsync method returns a NotFound result when the IBottleService implementation's GetBottleAsync method returns null.
+        /// </summary>
         [Test]
         public async Task GetBottleAsync_Returns404_WhenServiceReturnsNull()
         {
@@ -36,6 +48,9 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.IsInstanceOf(typeof(NotFoundObjectResult), actionResult);
         }
 
+        /// <summary>
+        /// Test that the GetBottleAsync method returns an Ok result when the IBottleService implementation's GetBottleAsync method returns a non-null Bottle object.
+        /// </summary>
         [Test]
         public async Task GetBottleAsync_Returns200ContainingBottleData_WhenServiceFindsBottle()
         {
@@ -62,6 +77,9 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.AreEqual(actualBottle.BottleId, expectedBottle.BottleId);
         }
 
+        /// <summary>
+        /// Test that the GetAllBottlesAsync method returns an Ok result when the IBottleService implementation's GetAllBottlesAsync method returns a non-empty list of Bottles.
+        /// </summary>
         [Test]
         public async Task GetAllBottlesAsync_Returns200ContainingListOfAllBottles_WhenServiceFindsBottles()
         {
@@ -87,9 +105,11 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.IsInstanceOf(typeof(OkObjectResult), actionResult);
             Assert.AreEqual(actualList[0].BottleId, expectedList[0].BottleId);
             Assert.AreEqual(actualList[1].BottleId, expectedList[1].BottleId);
-
         }
 
+        /// <summary>
+        /// Test that the GetAllBottlesAsync method returns an Ok result when the IBottleService implementation's GetAllBottlesAsync method returns an empty list of Bottles.
+        /// </summary>
         [Test]
         public async Task GetAllBottlesAsync_Returns200ContainingEmptyList_WhenServiceDoesntFindBottles()
         {
@@ -111,6 +131,9 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.IsEmpty(actualList);          
         }
 
+        /// <summary>
+        /// Test that the PostBottleAsync method returns a Created result when the IBottleService implementation's PostBottleAsync method returns a Bottle.
+        /// </summary>
         [Test]
         public async Task PostBottleAsync_Returns201ContainingPostedBottle_WhenValidBottlePosted()
         {
@@ -134,6 +157,9 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.AreEqual(postedBottle.Name, createdBottle.Name);
         }
 
+        /// <summary>
+        /// Test that the PostBottleAsync method returns a BadRequest result when the IBottleService implementation's PostBottleAsync method returns null.
+        /// </summary>
         [Test]
         public async Task PostBottleAsync_Returns400_WhenServiceReturnsNull()
         {
@@ -151,6 +177,10 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.IsInstanceOf(typeof(BadRequestObjectResult), actionResult);
         }
 
+        /// <summary>
+        /// Test that the UpdateBottleAsync method returns an Ok result when the IBottleService implementation's GetBottleAsync method returns a Bottle.
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task UpdateBottleAsync_Returns200ContainingBottleData_WhenServiceFindsAndUpdatesBottle()
         {
@@ -174,6 +204,10 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.AreEqual(newBottleData.Name, actualBottle.Name);
         }
 
+        /// <summary>
+        /// Test that the UpdateBottleAsync method returns a NotFound result when the IBottleService implementation's GetBottleAsync method returns null.
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task UpdateBottleAsync_Returns404_WhenServiceCantGetBottleMatchingId()
         {
@@ -194,6 +228,10 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.AreEqual("bottleId", notFoundValue);
         }
 
+        /// <summary>
+        /// Test that the DeleteBottleAsync method returns a NotFound result when the IBottleService implementation's DeleteBottleAsync method returns false.
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task DeleteBottleAsync_Returns404_WhenServiceCantGetBottleMatchingId()
         {
@@ -214,6 +252,10 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             Assert.AreEqual("bottleId", notFoundValue);
         }
 
+        /// <summary>
+        /// Test that the DeleteBottleAsync method returns a NoContent result when the IBottleService implementation's DeleteBottleAsync method returns true.
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task DeleteBottleAsync_Returns204_WhenServiceDeletesBottleAndReturnsTrue()
         {
