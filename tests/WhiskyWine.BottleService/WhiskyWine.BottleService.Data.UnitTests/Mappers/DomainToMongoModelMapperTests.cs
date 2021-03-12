@@ -5,16 +5,25 @@ using WhiskyWine.BottleService.Domain.Models;
 
 namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
 {
+    /// <summary>
+    /// The unit test class for the DomainToMongoModelMapper.
+    /// </summary>
     public class DomainToMongoModelMapperTests
     {
         private DomainToMongoModelMapper _mapper;
 
+        /// <summary>
+        /// Sets up the class under test. Runs before every unit test.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             _mapper = new DomainToMongoModelMapper();
         }
 
+        /// <summary>
+        /// Test that the Map method returns a null BottleMongoModel if null Bottle passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsNull_IfNullParamPassed()
         {
@@ -28,6 +37,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.IsNull(result);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a BottleMongoModel with an empty ObjectId when a Bottle with unparseable BottleId is passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsMongoBottleWithEmptyObjectId_WhenDomainIdNotParseable()
         {
@@ -41,6 +53,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.AreEqual(ObjectId.Empty, result.BottleId);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a BottleMongoModel with a valid ObjectId when a Bottle with parseable BottleId is passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsMongoBottleWithValidObjectId_WhenDomainIdParseable()
         {
@@ -57,6 +72,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.AreEqual(expectedObjectId, result.BottleId);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a BottleMongoModel with correct Name property when a Bottle with non-null Name is passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsMongoBottleWithNamePropertySet_WhenBottleWithNonNullNamePassed()
         {
@@ -71,6 +89,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.AreEqual(expectedBottleName, result.Name);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a BottleMongoModel with correct Region property when a Bottle with non-null Region is passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsMongoBottleWithRegionPropertySet_WhenBottleWithNonNullRegionPassed()
         {
@@ -85,6 +106,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.AreEqual(expectedBottleRegion, result.Region);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a BottleMongoModel with correct AlcoholCategory property when a Bottle with non-null AlcoholProperty is passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsMongoBottleWithAlcoholCategorySet_WhenBottleWithNonNullCategoryPassed()
         {

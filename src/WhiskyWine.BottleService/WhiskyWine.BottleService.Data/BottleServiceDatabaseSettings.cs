@@ -2,6 +2,9 @@
 
 namespace WhiskyWine.BottleService.Data
 {
+    /// <summary>
+    /// This class is used to hold the connection, database, and collection properties for mongodb.
+    /// </summary>
     public class BottleServiceDatabaseSettings : IDatabaseSettings
     {
         public string BottlesCollectionName { get; set; }

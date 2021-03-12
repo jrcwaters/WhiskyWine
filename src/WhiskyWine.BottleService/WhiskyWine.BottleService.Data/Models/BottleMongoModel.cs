@@ -1,13 +1,11 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WhiskyWine.BottleService.Data.Models
 {
+    /// <summary>
+    /// The bottle model used for interaction with mongodb.
+    /// </summary>
     public class BottleMongoModel
     {
         [BsonId]

@@ -1,25 +1,29 @@
 ﻿using MongoDB.Bson;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WhiskyWine.BottleService.Data.Mappers;
 using WhiskyWine.BottleService.Data.Models;
 
 namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
 {
+    /// <summary>
+    /// The unit test class for the MongoToDomainModelMapper.
+    /// </summary>
     public class MongoToDomainModelMapperTests
     {
         private MongoToDomainModelMapper _mapper;
 
+        /// <summary>
+        /// Sets up the class under test. Runs before every unit test.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             _mapper = new MongoToDomainModelMapper();
         }
 
+        /// <summary>
+        /// Test that the Map method returns a null Bottleif null BottleMongoModel passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsNull_IfNullParamPassed()
         {
@@ -33,6 +37,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.IsNull(result);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a Bottle with BottleId correctly mapped to string.
+        /// </summary>
         [Test]
         public void Map_ReturnsBottleWithIdAsString_WhenMongoBottleMapped()
         {
@@ -47,6 +54,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.AreEqual(expectedIdString, result.BottleId);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a Bottle with correct Name property when a BottleMongoModel with non-null Name is passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsBottleWithNamePropertySet_WhenMongoBottleWithNonNullNamePassed()
         {
@@ -61,6 +71,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.AreEqual(expectedName, result.Name);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a Bottle with correct Region property when a BottleMongoModel with non-null Region is passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsBottleWithRegionPropertySet_WhenMongoBottleWithNonNullRegionPassed()
         {
@@ -75,6 +88,9 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             Assert.AreEqual(expectedRegion, result.Region);
         }
 
+        /// <summary>
+        /// Test that the Map method returns a Bottle with correct AlcoholCategory property when a BottleMongoModel with non-null AlcoholCategory is passed.
+        /// </summary>
         [Test]
         public void Map_ReturnsBottleWithAlcoholPropertySet_WhenMongoBottleWithNonNullCategoryPassed()
         {

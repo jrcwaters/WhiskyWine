@@ -7,16 +7,25 @@ using System.Collections.Generic;
 
 namespace WhiskyWine.BottleService.Domain.UnitTests.Services
 {
+    /// <summary>
+    /// The unit test class for the BottleService.
+    /// </summary>
     public class BottleServiceTests
     {
         private Mock<IRepository<Bottle>> _mockRepository;
 
+        /// <summary>
+        /// Sets up mocks of BottleService dependencies. Runs before every test.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             _mockRepository = new Mock<IRepository<Bottle>>();
         }
 
+        /// <summary>
+        /// Tests that the GetBottlesAsync method returns the same Bottle returned by repository's GetByIdAsync method, when this is not null.
+        /// </summary>
         [Test]
         public async Task GetBottleAsync_ReturnsResultReturnedByRepository_WhenNotNull()
         {
@@ -35,6 +44,9 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             Assert.AreEqual(bottleToReturn.BottleId, result.BottleId);
         }
 
+        /// <summary>
+        /// Tests that the GetBottlesAsync method returns null when repository's GetByIdAsync method returns null.
+        /// </summary>
         [Test]
         public async Task GetBottleAsync_ReturnsNull_WhenNullReturnedByRepository()
         {
@@ -52,6 +64,10 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             Assert.AreEqual(null, null);
         }
 
+        /// <summary>
+        /// Tests that the GetAllBottlesAsync method returns the same list returned by the repository's GetAllAsync method, when this list is non-empty.
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task GetAllBottlesAsync_ReturnsListReturnedByRepo_WhenNonEmpty()
         {
@@ -75,6 +91,10 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             Assert.AreEqual(listToReturn[1].BottleId, result[1].BottleId);
         }
 
+        /// <summary>
+        /// Tests that the GetAllBottlesAsync method returns the empty list when the repository's GetAllAsync method returns an empty list.
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task GetAllBottlesAsync_ReturnsEmptyList_WhenRepoReturnsEmptyList()
         {
@@ -94,6 +114,9 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             Assert.IsEmpty(result);
         }
 
+        /// <summary>
+        /// Tests that the PostBottleAsync method returns the bottle returned by to the repository's InsertAsync method, when this list is non-null.
+        /// </summary>
         [Test]
         public async Task PostBottleAsync_ReturnsBottleReturnedByRepo_WhenNotNull()
         {
@@ -113,6 +136,9 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
 
         }
 
+        /// <summary>
+        /// Tests that the PostBottleAsync method returns null when the repository's InsertAsync method returns null.
+        /// </summary>
         [Test]
         public async Task PostBottleAsync_ReturnsNull_WhenRepoReturnsNull()
         {
@@ -131,6 +157,9 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
 
         }
 
+        /// <summary>
+        /// Tests that the DeleteBottleAsync method returns true when the repository's DeleteAsync method returns true.
+        /// </summary>
         [Test]
         public async Task DeleteBottleAsync_ReturnsTrue_WhenRepoReturnsTrue()
         {
@@ -148,6 +177,9 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             Assert.AreEqual(true, result);
         }
 
+        /// <summary>
+        /// Tests that the DeleteBottleAsync method returns false when the repository's DeleteAsync method returns false.
+        /// </summary>
         [Test]
         public async Task DeleteBottleAsync_ReturnsFalse_WhenRepoReturnsFalse()
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Moq;
 using NUnit.Framework;
@@ -13,6 +12,9 @@ using WhiskyWine.BottleService.Domain.Models;
 
 namespace WhiskyWine.BottleService.Data.UnitTests.Repositories
 {
+    /// <summary>
+    /// The unit test class for the BottleMongoRepository.
+    /// </summary>
     public class BottleMongoRepositoryTests
     {
         private Mock<IMapper<Bottle, BottleMongoModel>> _mockToMongoMapper;
@@ -29,8 +31,6 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Repositories
             _mockToMongoMapper = new Mock<IMapper<Bottle, BottleMongoModel>>();
             _mockToDomainMapper = new Mock<IMapper<BottleMongoModel, Bottle>>();
             _mockDbContext = new Mock<IMongoDbContext<BottleMongoModel>>();
-
-            
         }
 
         /// <summary>
