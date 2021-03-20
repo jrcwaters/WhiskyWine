@@ -124,7 +124,7 @@ namespace WhiskyWine.BottleService.API.UnitTests.Mappers
         }
 
         /// <summary>
-        /// Test that the MapMany method can correctly map a list of BottleMongoModels to BottleApiModels.
+        /// Test that the MapMany method can correctly map a list of BottleDomainModels to BottleApiModels.
         /// </summary>
         [Test]
         public void MapMany_ReturnsCorrectlyMappedList_WhenNonEmptyListPassed()
