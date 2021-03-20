@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using NUnit.Framework;
 using WhiskyWine.BottleService.Data.Mappers;
+using WhiskyWine.BottleService.Domain.Enums;
 using WhiskyWine.BottleService.Domain.Models;
 
 namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
@@ -28,10 +29,10 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
         public void Map_ReturnsNull_IfNullParamPassed()
         {
             //Arrange
-            Bottle fromBottle = null;
+            BottleDomainModel fromBottle = null;
 
             //Act
-            var result = _mapper.Map(fromBottle);
+            var result = _mapper.MapOne(fromBottle);
 
             //Assert
             Assert.IsNull(result);
@@ -44,10 +45,10 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
         public void Map_ReturnsMongoBottleWithEmptyObjectId_WhenDomainIdNotParseable()
         {
             //Arrange
-            var fromBottle = new Bottle{ BottleId = "bottleId" };
+            var fromBottle = new BottleDomainModel{ BottleId = "bottleId" };
 
             //Act
-            var result = _mapper.Map(fromBottle);
+            var result = _mapper.MapOne(fromBottle);
 
             //Assert
             Assert.AreEqual(ObjectId.Empty, result.BottleId);
@@ -61,12 +62,12 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
         {
             //Arrange
             var idAsString = "507f1f77bcf86cd799439011";
-            var fromBottle = new Bottle{ BottleId = idAsString };
+            var fromBottle = new BottleDomainModel{ BottleId = idAsString };
 
             var expectedObjectId = new ObjectId(idAsString);
 
             //Act
-            var result = _mapper.Map(fromBottle);
+            var result = _mapper.MapOne(fromBottle);
 
             //Assert
             Assert.AreEqual(expectedObjectId, result.BottleId);
@@ -80,10 +81,10 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
         {
             //Arrange
             var expectedBottleName = "bottleName";
-            var fromBottle = new Bottle{ Name = expectedBottleName };
+            var fromBottle = new BottleDomainModel{ Name = expectedBottleName };
 
             //Act
-            var result = _mapper.Map(fromBottle);
+            var result = _mapper.MapOne(fromBottle);
 
             //Assert
             Assert.AreEqual(expectedBottleName, result.Name);
@@ -97,10 +98,10 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
         {
             //Arrange
             var expectedBottleRegion = "bottleRegion";
-            var fromBottle = new Bottle{ Region = expectedBottleRegion };
+            var fromBottle = new BottleDomainModel{ Region = expectedBottleRegion };
 
             //Act
-            var result = _mapper.Map(fromBottle);
+            var result = _mapper.MapOne(fromBottle);
 
             //Assert
             Assert.AreEqual(expectedBottleRegion, result.Region);
@@ -113,11 +114,11 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
         public void Map_ReturnsMongoBottleWithAlcoholCategorySet_WhenBottleWithNonNullCategoryPassed()
         {
             //Arrange
-            var expectedAlcoholCategory = "whisky";
-            var fromBottle = new Bottle{ AlcoholCategory = expectedAlcoholCategory };
+            var expectedAlcoholCategory = AlcoholCategory.Whisky;
+            var fromBottle = new BottleDomainModel{ AlcoholCategory = expectedAlcoholCategory };
 
             //Act
-            var result = _mapper.Map(fromBottle);
+            var result = _mapper.MapOne(fromBottle);
 
             //Assert
             Assert.AreEqual(expectedAlcoholCategory, result.AlcoholCategory);

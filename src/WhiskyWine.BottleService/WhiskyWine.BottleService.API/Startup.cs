@@ -10,6 +10,10 @@ using WhiskyWine.BottleService.Data.Repositories;
 using WhiskyWine.BottleService.Data;
 using WhiskyWine.BottleService.Data.Mappers;
 using WhiskyWine.BottleService.Data.Models;
+using FluentValidation;
+using WhiskyWine.BottleService.API.Validators;
+using WhiskyWine.BottleService.API.Models;
+using WhiskyWine.BottleService.API.Mappers;
 
 namespace WhiskyWine.BottleService.API
 {
@@ -33,7 +37,7 @@ namespace WhiskyWine.BottleService.API
             services.AddSingleton<IDatabaseSettings>(
                     c => c.GetRequiredService<IOptions<BottleServiceDatabaseSettings>>().Value);
             services.AddSingleton<IMongoDbContext<BottleMongoModel>, BottleMongoDbContext>();
-            services.AddSingleton<IRepository<Bottle>, BottleMongoRepository>();
+            services.AddSingleton<IRepository<BottleDomainModel>, BottleMongoRepository>();
 
             services.AddControllers();
             services.AddMemoryCache();
@@ -52,9 +56,16 @@ namespace WhiskyWine.BottleService.API
             //Register domain servies
             services.AddTransient<IBottleService, Domain.Services.BottleService>();
             
-            //Register adapters
-            services.AddTransient<IMapper<Bottle, BottleMongoModel>, DomainToMongoModelMapper>();
-            services.AddTransient<IMapper<BottleMongoModel, Bottle>, MongoToDomainModelMapper>();
+            //Register adapters for persistence project
+            services.AddTransient<IMapper<BottleDomainModel, BottleMongoModel>, DomainToMongoModelMapper>();
+            services.AddTransient<IMapper<BottleMongoModel, BottleDomainModel>, MongoToDomainModelMapper>();
+
+            //Register adapters for API project
+            services.AddTransient<IMapper<BottleDomainModel, BottleApiModel>, DomainToApiModelMapper>();
+            services.AddTransient<IMapper<BottleApiModel, BottleDomainModel>, ApiToDomainModelMapper>();
+
+            //Register validator
+            services.AddTransient<IValidator<BottleApiModel>, BottleValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

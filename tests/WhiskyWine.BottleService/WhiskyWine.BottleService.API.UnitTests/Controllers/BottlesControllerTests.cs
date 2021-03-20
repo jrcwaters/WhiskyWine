@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WhiskyWine.BottleService.API.Controllers;
+using WhiskyWine.BottleService.API.Models;
 using WhiskyWine.BottleService.Domain.Interfaces;
 using WhiskyWine.BottleService.Domain.Models;
 
@@ -20,12 +22,30 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
         private Mock<IBottleService> _mockBottleService;
 
         /// <summary>
+        /// Mocked out Validator.
+        /// </summary>
+        private Mock<IValidator<BottleApiModel>> _mockValidator;
+
+        /// <summary>
+        /// Mocked out Domain to API model mapper.
+        /// </summary>
+        private Mock<IMapper<BottleDomainModel, BottleApiModel>> _mockToApiModelMapper;
+
+        /// <summary>
+        /// Mocked out API to Domain model mapper.
+        /// </summary>
+        private Mock<IMapper<BottleApiModel, BottleDomainModel>> _mockToDomainModelMapper;
+
+        /// <summary>
         /// Set up the dependencies. Runs before every unit test in this class.
         /// </summary>
         [SetUp]
         public void Setup()
         {
             _mockBottleService = new Mock<IBottleService>();
+            _mockValidator = new Mock<IValidator<BottleApiModel>>();
+            _mockToApiModelMapper = new Mock<IMapper<BottleDomainModel, BottleApiModel>>();
+            _mockToDomainModelMapper = new Mock<IMapper<BottleApiModel, BottleDomainModel>>();
         }
 
         /// <summary>
@@ -37,9 +57,12 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             //Arrange
             _mockBottleService.Setup(
                 c => c.GetBottleAsync(It.IsAny<string>()))
-                .ReturnsAsync((Bottle)null);
+                .ReturnsAsync((BottleDomainModel)null);
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object, 
+                _mockValidator.Object, 
+                _mockToApiModelMapper.Object, 
+                _mockToDomainModelMapper.Object);
 
             //Act
             var actionResult = await bottlesController.GetBottleAsync("bottleId");
@@ -55,26 +78,33 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
         public async Task GetBottleAsync_Returns200ContainingBottleData_WhenServiceFindsBottle()
         {
             //Arrange
-            var expectedBottle = new Bottle 
+            var returnedDomainBottle = new BottleDomainModel 
             { 
                 BottleId = "bottleId"
             };
             
             _mockBottleService.Setup(
                 c => c.GetBottleAsync(It.IsAny<string>()))
-                .ReturnsAsync(expectedBottle);
+                .ReturnsAsync(returnedDomainBottle);
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            _mockToApiModelMapper.Setup(
+                c => c.MapOne(It.IsAny<BottleDomainModel>()))
+                .Returns(new BottleApiModel { BottleId = returnedDomainBottle.BottleId });
+
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
 
             //Act
             var actionResult = await bottlesController.GetBottleAsync("bottleId");
             var objectResult = actionResult as OkObjectResult;
-            var actualBottle = objectResult.Value as Bottle;
+            var actualBottle = objectResult.Value as BottleDomainModel;
 
             //Assert
             Assert.IsInstanceOf(typeof(OkObjectResult), actionResult);
             Assert.IsNotNull(actualBottle);
-            Assert.AreEqual(actualBottle.BottleId, expectedBottle.BottleId);
+            Assert.AreEqual(actualBottle.BottleId, "bottleId");
         }
 
         /// <summary>
@@ -84,27 +114,30 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
         public async Task GetAllBottlesAsync_Returns200ContainingListOfAllBottles_WhenServiceFindsBottles()
         {
             //Arrange
-            var expectedList = new List<Bottle>
+            var domainBottleList = new List<BottleDomainModel>
             {
-                new Bottle { BottleId = "bottle1" },
-                new Bottle { BottleId = "bottle2" }
+                new BottleDomainModel { BottleId = "bottle1" },
+                new BottleDomainModel { BottleId = "bottle2" }
             };
 
             _mockBottleService.Setup(
                 c => c.GetAllBottlesAsync())
-                .ReturnsAsync(expectedList);
+                .ReturnsAsync(domainBottleList);
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
 
             //Act
             var actionResult = await bottlesController.GetAllBottlesAsync();
             var objectResult = actionResult as OkObjectResult;
-            var actualList = objectResult.Value as List<Bottle>;
+            var actualList = objectResult.Value as List<BottleDomainModel>;
 
             //Assert
             Assert.IsInstanceOf(typeof(OkObjectResult), actionResult);
-            Assert.AreEqual(actualList[0].BottleId, expectedList[0].BottleId);
-            Assert.AreEqual(actualList[1].BottleId, expectedList[1].BottleId);
+            Assert.AreEqual(actualList[0].BottleId, domainBottleList[0].BottleId);
+            Assert.AreEqual(actualList[1].BottleId, domainBottleList[1].BottleId);
         }
 
         /// <summary>
@@ -116,18 +149,21 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             //Arrange
             _mockBottleService.Setup(
                 c => c.GetAllBottlesAsync())
-                .ReturnsAsync(new List<Bottle>());
+                .ReturnsAsync(new List<BottleDomainModel>());
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
 
             //Act
             var actionResult = await bottlesController.GetAllBottlesAsync();
             var objectResult = actionResult as OkObjectResult;
-            var actualList = objectResult.Value as List<Bottle>;
+            var actualList = objectResult.Value as List<BottleDomainModel>;
 
             //Assert
             Assert.IsInstanceOf(typeof(OkObjectResult), actionResult);
-            Assert.IsInstanceOf(typeof(List<Bottle>), actualList);
+            Assert.IsInstanceOf(typeof(List<BottleDomainModel>), actualList);
             Assert.IsEmpty(actualList);          
         }
 
@@ -138,23 +174,28 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
         public async Task PostBottleAsync_Returns201ContainingPostedBottle_WhenValidBottlePosted()
         {
             //Arrange
-            var postedBottle = new Bottle { BottleId = "bottleId", Name = "myBottle" };
+            var domainModelToReturn = new BottleDomainModel { BottleId = "bottleId", Name = "myBottle" };
             _mockBottleService.Setup(
-                c => c.PostBottleAsync(It.IsAny<Bottle>()))
-                .ReturnsAsync(postedBottle);
+                c => c.PostBottleAsync(It.IsAny<BottleDomainModel>()))
+                .ReturnsAsync(domainModelToReturn);
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
+
+            var apiBottleToPost = new BottleApiModel { BottleId = "bottleId", Name = "myBottle" };
 
             //Act
-            var actionResult = await bottlesController.PostBottleAsync(postedBottle);
+            var actionResult = await bottlesController.PostBottleAsync(apiBottleToPost);
             var createdResult = actionResult as CreatedResult;
             var createdLocation = createdResult.Location;
-            var createdBottle = createdResult.Value as Bottle;
+            var createdBottle = createdResult.Value as BottleApiModel;
 
             //Assert
             Assert.IsInstanceOf(typeof(CreatedResult), actionResult);
-            Assert.AreEqual($"api/bottles/{postedBottle.BottleId}", createdLocation);
-            Assert.AreEqual(postedBottle.Name, createdBottle.Name);
+            Assert.AreEqual($"api/bottles/{apiBottleToPost.BottleId}", createdLocation);
+            Assert.AreEqual(apiBottleToPost.Name, createdBottle.Name);
         }
 
         /// <summary>
@@ -165,13 +206,16 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
         {
             //Arrange
             _mockBottleService.Setup(
-                c => c.PostBottleAsync(It.IsAny<Bottle>()))
-                .ReturnsAsync((Bottle)null);
+                c => c.PostBottleAsync(It.IsAny<BottleDomainModel>()))
+                .ReturnsAsync((BottleDomainModel)null);
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
 
             //Act
-            var actionResult = await bottlesController.PostBottleAsync(new Bottle());
+            var actionResult = await bottlesController.PostBottleAsync(new BottleApiModel());
 
             //Assert
             Assert.IsInstanceOf(typeof(BadRequestObjectResult), actionResult);
@@ -187,20 +231,23 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             //Arrange
             _mockBottleService.Setup(
                 c => c.GetBottleAsync(It.IsAny<string>()))
-                .ReturnsAsync(new Bottle());
+                .ReturnsAsync(new BottleDomainModel());
 
-            var newBottleData = new Bottle { BottleId = "bottleId", Name = "bottleName" };
+            var newBottleData = new BottleApiModel { BottleId = "bottleId", Name = "bottleName" };
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
 
             //Act
             var actionResult = await bottlesController.UpdateBottleAsync("bottleId", newBottleData);
             var okResult = actionResult as OkObjectResult;
-            var actualBottle = okResult.Value as Bottle;
+            var actualBottle = okResult.Value as BottleDomainModel;
 
             //Assert
             Assert.IsInstanceOf(typeof(OkObjectResult), actionResult);
-            Assert.IsInstanceOf(typeof(Bottle), actualBottle);
+            Assert.IsInstanceOf(typeof(BottleDomainModel), actualBottle);
             Assert.AreEqual(newBottleData.Name, actualBottle.Name);
         }
 
@@ -214,12 +261,15 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
             //Arrange
             _mockBottleService.Setup(
                 c => c.GetBottleAsync(It.IsAny<string>()))
-                .ReturnsAsync((Bottle)null);
+                .ReturnsAsync((BottleDomainModel)null);
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
 
             //Act
-            var actionResult = await bottlesController.UpdateBottleAsync("bottleId", new Bottle());
+            var actionResult = await bottlesController.UpdateBottleAsync("bottleId", new BottleApiModel());
             var notFoundResult = actionResult as NotFoundObjectResult;
             var notFoundValue = notFoundResult.Value as string;
 
@@ -240,7 +290,10 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
                 c => c.DeleteBottleAsync(It.IsAny<string>()))
                 .ReturnsAsync(false);
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
 
             //Act
             var actionResult = await bottlesController.DeleteBottleAsync("bottleId");
@@ -264,7 +317,10 @@ namespace WhiskyWine.BottleService.API.UnitTests.Controllers
                 c => c.DeleteBottleAsync(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
-            var bottlesController = new BottlesController(_mockBottleService.Object);
+            var bottlesController = new BottlesController(_mockBottleService.Object,
+                _mockValidator.Object,
+                _mockToApiModelMapper.Object,
+                _mockToDomainModelMapper.Object);
 
             //Act
             var actionResult = await bottlesController.DeleteBottleAsync("bottleId");

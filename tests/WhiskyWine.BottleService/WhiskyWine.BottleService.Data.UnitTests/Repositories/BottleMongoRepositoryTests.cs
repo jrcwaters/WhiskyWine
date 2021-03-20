@@ -17,8 +17,8 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Repositories
     /// </summary>
     public class BottleMongoRepositoryTests
     {
-        private Mock<IMapper<Bottle, BottleMongoModel>> _mockToMongoMapper;
-        private Mock<IMapper<BottleMongoModel, Bottle>> _mockToDomainMapper;
+        private Mock<IMapper<BottleDomainModel, BottleMongoModel>> _mockToMongoMapper;
+        private Mock<IMapper<BottleMongoModel, BottleDomainModel>> _mockToDomainMapper;
         private Mock<IMongoDbContext<BottleMongoModel>> _mockDbContext;
 
         /// <summary>
@@ -28,8 +28,8 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Repositories
         public void SetUp()
         {
             //Create mocks of the BottleMongoRepository dependencies and store in fields
-            _mockToMongoMapper = new Mock<IMapper<Bottle, BottleMongoModel>>();
-            _mockToDomainMapper = new Mock<IMapper<BottleMongoModel, Bottle>>();
+            _mockToMongoMapper = new Mock<IMapper<BottleDomainModel, BottleMongoModel>>();
+            _mockToDomainMapper = new Mock<IMapper<BottleMongoModel, BottleDomainModel>>();
             _mockDbContext = new Mock<IMongoDbContext<BottleMongoModel>>();
         }
 
@@ -68,12 +68,12 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Repositories
 
 
             //Setup the Map method of the mock Mongo to Domain model Mapper 
-            var mappedToDomainBottle = new Bottle();
+            var mappedToDomainBottle = new BottleDomainModel();
             _mockToDomainMapper.Setup(
-                    c => c.Map(It.IsAny<BottleMongoModel>()))
+                    c => c.MapOne(It.IsAny<BottleMongoModel>()))
                 .Callback<BottleMongoModel>((passedMongoBottle) =>
                 {
-                    mappedToDomainBottle = passedMongoBottle == null ? null : new Bottle
+                    mappedToDomainBottle = passedMongoBottle == null ? null : new BottleDomainModel
                     {
                         BottleId = passedMongoBottle.BottleId.ToString(),
                         Name = passedMongoBottle.Name,

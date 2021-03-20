@@ -14,27 +14,27 @@ namespace WhiskyWine.BottleService.Domain.Interfaces
         /// </summary>
         /// <param name="bottleId">The id of the Bottle to get.</param>
         /// <returns>Task of Bottle containing the Bottle data matching the id.</returns>
-        Task<Bottle> GetBottleAsync(string bottleId);
+        Task<BottleDomainModel> GetBottleAsync(string bottleId);
 
         /// <summary>
         /// Gets all Bottles on record.
         /// </summary>
         /// <returns>Task of IEnumerable containing all Bottles found.</returns>
-        Task<IEnumerable<Bottle>> GetAllBottlesAsync();
+        Task<IEnumerable<BottleDomainModel>> GetAllBottlesAsync();
 
         /// <summary>
         /// Posts a new Bottle.
         /// </summary>
         /// <param name="bottle">The Bottle object to post.</param>
         /// <returns>Task of Bottle returning the Bottle data that was posted.</returns>
-        Task<Bottle> PostBottleAsync(Bottle bottle);
+        Task<BottleDomainModel> PostBottleAsync(BottleDomainModel bottle);
 
         /// <summary>
         /// Updates an existing Bottle on record.
         /// </summary>
         /// <param name="bottleId">The id of the Bottle on record to update.</param>
         /// <param name="bottle">The new Bottle data to associate to the given id.</param>
-        Task UpdateBottleAsync(string bottleId, Bottle bottle);
+        Task UpdateBottleAsync(string bottleId, BottleDomainModel bottle);
 
         /// <summary>
         /// Deletes a Bottle on record.
