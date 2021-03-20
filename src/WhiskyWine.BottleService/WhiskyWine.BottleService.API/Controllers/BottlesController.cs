@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WhiskyWine.BottleService.API.Models;
 using WhiskyWine.BottleService.Domain.Interfaces;
 using WhiskyWine.BottleService.Domain.Models;
 
@@ -17,16 +19,29 @@ namespace WhiskyWine.BottleService.API.Controllers
     {
         /// <summary>
         /// The domain service to which API calls will be passed.
-        /// </summary>
+        /// </summary>  
         private readonly IBottleService _bottleService;
+
+        /// <summary>
+        /// The validator to ensure Bottles passed into the controller meet required standards.
+        /// </summary>
+        private readonly IValidator<BottleApiModel> _bottleValidator;
+        private readonly IMapper<BottleDomainModel, BottleApiModel> _toApiModelMapper;
+        private readonly IMapper<BottleApiModel, BottleDomainModel> _toDomainModelMapper;
 
         /// <summary>
         /// Constructs an instance of the BottlesController.
         /// </summary>
         /// <param name="bottleService">An instance of class implementing the IBottleService interface.</param>
-        public BottlesController(IBottleService bottleService)
+        public BottlesController(IBottleService bottleService, 
+            IValidator<BottleApiModel> bottleValidator, 
+            IMapper<BottleDomainModel, BottleApiModel> toApiModelMapper, 
+            IMapper<BottleApiModel, BottleDomainModel> toDomainModelMapper)
         {
             this._bottleService = bottleService;
+            this._bottleValidator = bottleValidator;
+            this._toApiModelMapper = toApiModelMapper;
+            this._toDomainModelMapper = toDomainModelMapper;
         }
 
         /// <summary>
@@ -39,10 +54,12 @@ namespace WhiskyWine.BottleService.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetBottleAsync(string bottleId)
         {
-            var result = await this._bottleService.GetBottleAsync(bottleId);
-            
-            //If service returns null, no Bottle has been found matching the passed id.
-            return result == null ? (IActionResult)NotFound(bottleId) : Ok(result);
+            var domainBottle = await this._bottleService.GetBottleAsync(bottleId);
+
+            var apiModelBottle = _toApiModelMapper.MapOne(domainBottle);
+
+            //If service returns null, no Bottle has been found matching the passed id, so return a 404.
+            return apiModelBottle == null ? (IActionResult)NotFound(bottleId) : Ok(apiModelBottle);
         }
 
         /// <summary>
@@ -52,8 +69,11 @@ namespace WhiskyWine.BottleService.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllBottlesAsync()
         {
-            var result = await this._bottleService.GetAllBottlesAsync();
-            return Ok(result);
+            //If no bottles are found, the service will return an empty list, so we can still return a 200 containing this.
+            var domainBottleList = await this._bottleService.GetAllBottlesAsync();
+
+            var apiBottleList = _toApiModelMapper.MapMany(domainBottleList);
+            return Ok(apiBottleList);
         }
 
         /// <summary>
@@ -64,14 +84,20 @@ namespace WhiskyWine.BottleService.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostBottleAsync(Bottle bottle)
+        public async Task<IActionResult> PostBottleAsync(BottleApiModel apiBottle)
         {
-            var result = await this._bottleService.PostBottleAsync(bottle);
-            
-            //If service returns null, the Bottle object has not been successfully created.
-            if (result != null)
+            //If the bottle data passed into the call is valid, map it to a domain Bottle model so it can be passed into the domain service.
+            await _bottleValidator.ValidateAndThrowAsync(apiBottle);
+            var domainBottle = _toDomainModelMapper.MapOne(apiBottle);
+
+            var servicePostResult = await this._bottleService.PostBottleAsync(domainBottle);
+
+            //If service returned null, the Bottle object has not been successfully created, so return a 400.
+            if (servicePostResult != null)
             {
-                return Created($"api/bottles/{bottle.BottleId}", result);
+                //Map the result that was returned from the service back to an API model, so it can be sent back out of the API in the response.
+                var apiBottleToReturn = _toApiModelMapper.MapOne(servicePostResult);
+                return Created($"api/bottles/{apiBottleToReturn.BottleId}", apiBottleToReturn);
             }
             return BadRequest("Cannot insert duplicate record.");
         }
@@ -85,15 +111,20 @@ namespace WhiskyWine.BottleService.API.Controllers
         [HttpPut("{bottleId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateBottleAsync(string bottleId, Bottle bottle)
+        public async Task<IActionResult> UpdateBottleAsync(string bottleId, BottleApiModel apiBottle)
         {
-            bottle.BottleId = bottleId;
+            apiBottle.BottleId = bottleId;
+            await _bottleValidator.ValidateAndThrowAsync(apiBottle);
+            var domainBottle = _toDomainModelMapper.MapOne(apiBottle);
+            
 
-            //If service returns null, no Bottle has been found matching the passed id.
+            //If service returns null, no Bottle has been found matching the passed id, so return a 404.
             if (await this._bottleService.GetBottleAsync(bottleId) == null) return NotFound(bottleId);
 
-            await this._bottleService.UpdateBottleAsync(bottleId, bottle);
-            return Ok(bottle);
+            await this._bottleService.UpdateBottleAsync(bottleId, domainBottle);
+
+            //Return API Bottle that was passed
+            return Ok(apiBottle);
 
         }
 
@@ -107,10 +138,10 @@ namespace WhiskyWine.BottleService.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteBottleAsync(string bottleId)
         {
-            var result = await this._bottleService.DeleteBottleAsync(bottleId);
+            var wasDeleted = await this._bottleService.DeleteBottleAsync(bottleId);
 
-            //If service returns false, no Bottle has been found matching the passed id.
-            return result == false ? NotFound(bottleId) : NoContent();
+            //If service returns false, no Bottle has been found matching the passed id, so return a 404.
+            return wasDeleted == false ? NotFound(bottleId) : NoContent();
         }
     }
 }

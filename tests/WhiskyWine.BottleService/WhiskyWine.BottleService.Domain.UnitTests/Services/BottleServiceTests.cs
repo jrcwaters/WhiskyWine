@@ -12,7 +12,7 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
     /// </summary>
     public class BottleServiceTests
     {
-        private Mock<IRepository<Bottle>> _mockRepository;
+        private Mock<IRepository<BottleDomainModel>> _mockRepository;
 
         /// <summary>
         /// Sets up mocks of BottleService dependencies. Runs before every test.
@@ -20,7 +20,7 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
         [SetUp]
         public void SetUp()
         {
-            _mockRepository = new Mock<IRepository<Bottle>>();
+            _mockRepository = new Mock<IRepository<BottleDomainModel>>();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
         public async Task GetBottleAsync_ReturnsResultReturnedByRepository_WhenNotNull()
         {
             //Arrange
-            var bottleToReturn = new Bottle { BottleId = "bottleId" };
+            var bottleToReturn = new BottleDomainModel { BottleId = "bottleId" };
             _mockRepository.Setup(
                 c => c.GetByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(bottleToReturn);
@@ -53,7 +53,7 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             //Arrange
             _mockRepository.Setup(
                 c => c.GetByIdAsync(It.IsAny<string>()))
-                .ReturnsAsync((Bottle)null);
+                .ReturnsAsync((BottleDomainModel)null);
 
             var bottleService = new Domain.Services.BottleService(_mockRepository.Object);
 
@@ -72,10 +72,10 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
         public async Task GetAllBottlesAsync_ReturnsListReturnedByRepo_WhenNonEmpty()
         {
             //Arrange
-            var listToReturn = new List<Bottle> 
+            var listToReturn = new List<BottleDomainModel> 
             { 
-                new Bottle { BottleId = "bottle1" },
-                new Bottle { BottleId = "bottle2"}
+                new BottleDomainModel { BottleId = "bottle1" },
+                new BottleDomainModel { BottleId = "bottle2"}
             };
             _mockRepository.Setup(
                 c => c.GetAllAsync())
@@ -84,7 +84,7 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             var bottleService = new Domain.Services.BottleService(_mockRepository.Object);
 
             //Act
-            var result = await bottleService.GetAllBottlesAsync() as List<Bottle>;
+            var result = await bottleService.GetAllBottlesAsync() as List<BottleDomainModel>;
 
             //Assert
             Assert.AreEqual(listToReturn[0].BottleId, result[0].BottleId);
@@ -99,7 +99,7 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
         public async Task GetAllBottlesAsync_ReturnsEmptyList_WhenRepoReturnsEmptyList()
         {
             //Arrange
-            var listToReturn = new List<Bottle>();
+            var listToReturn = new List<BottleDomainModel>();
             _mockRepository.Setup(
                 c => c.GetAllAsync())
                 .ReturnsAsync(listToReturn);
@@ -110,7 +110,7 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
             var result = await bottleService.GetAllBottlesAsync();
 
             //Assert
-            Assert.IsInstanceOf(typeof(List<Bottle>), result);
+            Assert.IsInstanceOf(typeof(List<BottleDomainModel>), result);
             Assert.IsEmpty(result);
         }
 
@@ -121,9 +121,9 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
         public async Task PostBottleAsync_ReturnsBottleReturnedByRepo_WhenNotNull()
         {
             //Arrange
-            var bottleToReturn = new Bottle { BottleId = "bottleId" };
+            var bottleToReturn = new BottleDomainModel { BottleId = "bottleId" };
             _mockRepository.Setup(
-                c => c.InsertAsync(It.IsAny<Bottle>()))
+                c => c.InsertAsync(It.IsAny<BottleDomainModel>()))
                 .ReturnsAsync(bottleToReturn);
 
             var bottleService = new Domain.Services.BottleService(_mockRepository.Object);
@@ -144,13 +144,13 @@ namespace WhiskyWine.BottleService.Domain.UnitTests.Services
         {
             //Arrange
             _mockRepository.Setup(
-                c => c.InsertAsync(It.IsAny<Bottle>()))
-                .ReturnsAsync((Bottle)null);
+                c => c.InsertAsync(It.IsAny<BottleDomainModel>()))
+                .ReturnsAsync((BottleDomainModel)null);
 
             var bottleService = new Domain.Services.BottleService(_mockRepository.Object);
 
             //Act
-            var result = await bottleService.PostBottleAsync(new Bottle());
+            var result = await bottleService.PostBottleAsync(new BottleDomainModel());
 
             //Assert
             Assert.AreEqual(null, result);

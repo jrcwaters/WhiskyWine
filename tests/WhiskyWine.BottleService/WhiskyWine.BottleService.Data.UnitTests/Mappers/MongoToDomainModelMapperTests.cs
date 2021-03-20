@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using WhiskyWine.BottleService.Data.Mappers;
 using WhiskyWine.BottleService.Data.Models;
+using WhiskyWine.BottleService.Domain.Enums;
 
 namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
 {
@@ -31,7 +32,7 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             BottleMongoModel fromBottle = null;
 
             //Act
-            var result = _mapper.Map(fromBottle);
+            var result = _mapper.MapOne(fromBottle);
 
             //Assert
             Assert.IsNull(result);
@@ -48,7 +49,7 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             var mongoBottle = new BottleMongoModel { BottleId = new ObjectId(expectedIdString) };
 
             //Act
-            var result = _mapper.Map(mongoBottle);
+            var result = _mapper.MapOne(mongoBottle);
 
             //Assert
             Assert.AreEqual(expectedIdString, result.BottleId);
@@ -65,7 +66,7 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             var mongoBottle = new BottleMongoModel { Name = expectedName };
 
             //Act
-            var result = _mapper.Map(mongoBottle);
+            var result = _mapper.MapOne(mongoBottle);
 
             //Assert
             Assert.AreEqual(expectedName, result.Name);
@@ -82,7 +83,7 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
             var mongoBottle = new BottleMongoModel { Region = expectedRegion };
 
             //Act
-            var result = _mapper.Map(mongoBottle);
+            var result = _mapper.MapOne(mongoBottle);
 
             //Assert
             Assert.AreEqual(expectedRegion, result.Region);
@@ -95,11 +96,11 @@ namespace WhiskyWine.BottleService.Data.UnitTests.Mappers
         public void Map_ReturnsBottleWithAlcoholPropertySet_WhenMongoBottleWithNonNullCategoryPassed()
         {
             //Arrange
-            var expectedCategory = "whisky";
+            var expectedCategory = AlcoholCategory.Whisky;
             var mongoBottle = new BottleMongoModel { AlcoholCategory = expectedCategory };
 
             //Act
-            var result = _mapper.Map(mongoBottle);
+            var result = _mapper.MapOne(mongoBottle);
 
             //Assert
             Assert.AreEqual(expectedCategory, result.AlcoholCategory);

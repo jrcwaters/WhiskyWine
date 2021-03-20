@@ -9,6 +9,7 @@ namespace WhiskyWine.BottleService.API.Controllers
     /// The global error handler for the BottleService.
     /// </summary>
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorController : ControllerBase
     {
         /// <summary>

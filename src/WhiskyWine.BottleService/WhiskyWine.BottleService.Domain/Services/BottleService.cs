@@ -13,13 +13,13 @@ namespace WhiskyWine.BottleService.Domain.Services
         /// <summary>
         /// A class implementing the IRepository interface, used for communication of bottles with the data store.
         /// </summary>
-        private readonly IRepository<Bottle> _repository;
+        private readonly IRepository<BottleDomainModel> _repository;
 
         /// <summary>
         /// Constructs an instance of the BottleService.
         /// </summary>
         /// <param name="repository"></param>
-        public BottleService(IRepository<Bottle> repository)
+        public BottleService(IRepository<BottleDomainModel> repository)
         {
             this._repository = repository;
         }
@@ -29,7 +29,7 @@ namespace WhiskyWine.BottleService.Domain.Services
         /// </summary>
         /// <param name="bottleId">The id of the bottle to get.</param>
         /// <returns>Task of Bottle containing the Bottle returned by the repository.</returns>
-        public async Task<Bottle> GetBottleAsync(string bottleId)
+        public async Task<BottleDomainModel> GetBottleAsync(string bottleId)
         {
             return await this._repository.GetByIdAsync(bottleId);
         }
@@ -38,7 +38,7 @@ namespace WhiskyWine.BottleService.Domain.Services
         /// Gets all Bottles returned by the repository.
         /// </summary>
         /// <returns>Task of IEnumeralbe of Bottle, containing the Bottles returned from the repository.</returns>
-        public async Task<IEnumerable<Bottle>> GetAllBottlesAsync()
+        public async Task<IEnumerable<BottleDomainModel>> GetAllBottlesAsync()
         {
             return await this._repository.GetAllAsync();
         }
@@ -48,7 +48,7 @@ namespace WhiskyWine.BottleService.Domain.Services
         /// </summary>
         /// <param name="bottle">The Bottle object to post.</param>
         /// <returns>Task of Bottle containing the Bottle that has been posted.</returns>
-        public async Task<Bottle> PostBottleAsync(Bottle bottle)
+        public async Task<BottleDomainModel> PostBottleAsync(BottleDomainModel bottle)
         {
             return await this._repository.InsertAsync(bottle);
         }
@@ -58,7 +58,7 @@ namespace WhiskyWine.BottleService.Domain.Services
         /// </summary>
         /// <param name="bottleId">The id of the Bottle to update.</param>
         /// <param name="bottle">The new Bottle to associate to the given id.</param>
-        public async Task UpdateBottleAsync(string bottleId, Bottle bottle)
+        public async Task UpdateBottleAsync(string bottleId, BottleDomainModel bottle)
         {
             await this._repository.UpdateAsync(bottleId, bottle);
         }

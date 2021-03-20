@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace WhiskyWine.BottleService.Domain.Interfaces
 {
     /// <summary>
@@ -11,8 +12,10 @@ namespace WhiskyWine.BottleService.Domain.Interfaces
         /// <summary>
         /// Maps an object of type S to an object of type T.
         /// </summary>
-        /// <param name="fromType">The object of type S to map from.</param>
+        /// <param name="from">The object of type S to map from.</param>
         /// <returns>Object of type T resulting from mapping.</returns>
-        T Map(S fromType);
+        T MapOne(S from);
+
+        IEnumerable<T> MapMany(IEnumerable<S> from);
     }
 }

@@ -12,11 +12,11 @@ namespace WhiskyWine.BottleService.Data.Repositories
     /// <summary>
     /// The repository class used to perform CRUD operations with bottle data to mongodb.
     /// </summary>
-    public class BottleMongoRepository : IRepository<Bottle>
+    public class BottleMongoRepository : IRepository<BottleDomainModel>
     {
         private readonly IMongoDbContext<BottleMongoModel> _dbContext;
-        private readonly IMapper<Bottle, BottleMongoModel> _toMongoMapper;
-        private readonly IMapper<BottleMongoModel, Bottle> _toDomainMapper;
+        private readonly IMapper<BottleDomainModel, BottleMongoModel> _toMongoMapper;
+        private readonly IMapper<BottleMongoModel, BottleDomainModel> _toDomainMapper;
 
         /// <summary>
         /// Constructs an instance of the BottleMongoRepository class.
@@ -25,8 +25,8 @@ namespace WhiskyWine.BottleService.Data.Repositories
         /// <param name="toMongoMapper">An instance of class implementing the IMapper interface with generic type parameters Bottle, BottleMongoModel.</param>
         /// <param name="toDomainMapper">An instance of class implementing the IMapper interface with generic type parameters BottleMongoModel, Bottle.</param>
         public BottleMongoRepository(IMongoDbContext<BottleMongoModel> dbContext,
-            IMapper<Bottle, BottleMongoModel> toMongoMapper,
-            IMapper<BottleMongoModel, Bottle> toDomainMapper)
+            IMapper<BottleDomainModel, BottleMongoModel> toMongoMapper,
+            IMapper<BottleMongoModel, BottleDomainModel> toDomainMapper)
         {
             this._dbContext = dbContext;
             this._toMongoMapper = toMongoMapper;
@@ -38,12 +38,12 @@ namespace WhiskyWine.BottleService.Data.Repositories
         /// </summary>
         /// <param name="entity">The Bottle entity to insert.</param>
         /// <returns>Task of Bottle, containing the Bottle that has been inserted.</returns>
-        public async Task<Bottle> InsertAsync(Bottle entity)
+        public async Task<BottleDomainModel> InsertAsync(BottleDomainModel entity)
         {
-            var mongoModel = _toMongoMapper.Map(entity);
+            var mongoModel = _toMongoMapper.MapOne(entity);
            
             await _dbContext.Collection.InsertOneAsync(mongoModel);
-            return _toDomainMapper.Map(mongoModel);
+            return _toDomainMapper.MapOne(mongoModel);
         }
 
         /// <summary>
@@ -51,29 +51,25 @@ namespace WhiskyWine.BottleService.Data.Repositories
         /// </summary>
         /// <param name="id">The id of the bottle to get.</param>
         /// <returns>Task of Bottle containing the Bottle that has been returned from the collection, or null if bottle not returned.</returns>
-        public async Task<Bottle> GetByIdAsync(string id)
+        public async Task<BottleDomainModel> GetByIdAsync(string id)
         {
             var idValid = ObjectId.TryParse(id, out var objectId);
             //If id passed is not a valid ObjectId the retrieval cannot proceed since no matching record will be found.
             if (!idValid) return null;
             
             var mongoModel = (await _dbContext.Collection.FindAsync(bottle => bottle.BottleId == objectId)).FirstOrDefault();
-            return _toDomainMapper.Map(mongoModel);
+            return _toDomainMapper.MapOne(mongoModel);
         }
 
         /// <summary>
         /// Gets all bottles from the mongodb collection.
         /// </summary>
         /// <returns>Task of IEnumerable containing the Bottles returned from the collection.</returns>
-        public async Task<IEnumerable<Bottle>> GetAllAsync()
+        public async Task<IEnumerable<BottleDomainModel>> GetAllAsync()
         {
             var mongoModelList = (await _dbContext.Collection.FindAsync(c => true)).ToList();
 
-            var domainModelList = new List<Bottle>();
-            foreach (var mongoModel in mongoModelList)
-            {
-                domainModelList.Add(_toDomainMapper.Map(mongoModel));
-            }
+            var domainModelList = _toDomainMapper.MapMany(mongoModelList);
             return domainModelList;
         }
 
@@ -82,13 +78,13 @@ namespace WhiskyWine.BottleService.Data.Repositories
         /// </summary>
         /// <param name="id">The id of the bottle to update.</param>
         /// <param name="entity">The new bottle to associate to the id.</param>
-        public async Task UpdateAsync(string id, Bottle entity)
+        public async Task UpdateAsync(string id, BottleDomainModel entity)
         {
             var idValid = ObjectId.TryParse(id, out var objectId);
             //If id passed is not a valid ObjectId the update cannot proceed since no matching record will be found.
             if (!idValid) return;
 
-            var mongoModel = _toMongoMapper.Map(entity);
+            var mongoModel = _toMongoMapper.MapOne(entity);
 
             await _dbContext.Collection.ReplaceOneAsync(bottle => bottle.BottleId == objectId, mongoModel);
         }
