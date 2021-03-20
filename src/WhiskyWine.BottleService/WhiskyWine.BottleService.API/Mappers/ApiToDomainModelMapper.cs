@@ -13,6 +13,11 @@ namespace WhiskyWine.BottleService.API.Mappers
     /// </summary>
     public class ApiToDomainModelMapper : IMapper<BottleApiModel, BottleDomainModel>
     {
+        /// <summary>
+        /// Maps a Bottle API model to a domain model.
+        /// </summary>
+        /// <param name="from">API model to map from.</param>
+        /// <returns>Domain model that results from the mapping.</returns>
         public BottleDomainModel MapOne(BottleApiModel from)
         {
             if (from == null) return null;
@@ -33,6 +38,11 @@ namespace WhiskyWine.BottleService.API.Mappers
 
         }
 
+        /// <summary>
+        /// Maps an IEnumerable of API models to an IEnumerable of domain models.
+        /// </summary>
+        /// <param name="from">The IEnumerable of API models from which to Map.</param>
+        /// <returns>IEnumumerable of domain models, each mapped from an API model in the input.</returns>
         public IEnumerable<BottleDomainModel> MapMany(IEnumerable<BottleApiModel> from)
         {
             var mappedList = new List<BottleDomainModel>();

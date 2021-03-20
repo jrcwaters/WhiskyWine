@@ -148,6 +148,9 @@ namespace WhiskyWine.BottleService.API.UnitTests.Mappers
             Assert.IsEmpty(result);
         }
 
+        /// <summary>
+        /// Test that the MapMany method can correctly map a list of BottleApiModels to BottleDomainModels.
+        /// </summary>
         [Test]
         public void MapMany_ReturnsCorrectlyMappedList_WhenNonEmptyListPassed()
         {
