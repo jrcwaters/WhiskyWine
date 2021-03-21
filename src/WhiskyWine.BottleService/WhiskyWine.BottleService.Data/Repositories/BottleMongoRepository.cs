@@ -40,6 +40,7 @@ namespace WhiskyWine.BottleService.Data.Repositories
         /// <returns>Task of Bottle, containing the Bottle that has been inserted.</returns>
         public async Task<BottleDomainModel> InsertAsync(BottleDomainModel entity)
         {
+            if (entity == null) return null; 
             var mongoModel = _toMongoMapper.MapOne(entity);
            
             await _dbContext.Collection.InsertOneAsync(mongoModel);
@@ -80,6 +81,8 @@ namespace WhiskyWine.BottleService.Data.Repositories
         /// <param name="entity">The new bottle to associate to the id.</param>
         public async Task UpdateAsync(string id, BottleDomainModel entity)
         {
+            if (entity == null) return;
+
             var idValid = ObjectId.TryParse(id, out var objectId);
             //If id passed is not a valid ObjectId the update cannot proceed since no matching record will be found.
             if (!idValid) return;
